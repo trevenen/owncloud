@@ -30,7 +30,7 @@ ini_set('default_charset', 'UTF-8');
 #ini_set('error_reporting', '');
 @ob_clean();
 
-OC_UTIL::setUpFS(OC_UTIL::getUserFromPath(), 'files', false);
+OC_UTIL::setUpFS(OC_UTIL::getUserFromUri(), 'files', false);
 $server = new HTTP_WebDAV_Server_Filesystem();
 $server->ServeRequest($CONFIG_DATADIRECTORY, true);
 

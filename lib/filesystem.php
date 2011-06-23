@@ -164,7 +164,7 @@ class OC_FILESYSTEM{
 		if(strstr($path,'/../') || strrchr($path, '/') === '/..' ){
 			return false;
 		}
-		return self::isWritable;
+		return self::$isWritable;
 	}
 	
 	/**
