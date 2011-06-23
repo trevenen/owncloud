@@ -193,7 +193,7 @@ class OC_UTIL {
         public static function getUserfromUri() {
        	 	$path = substr($_SERVER["REQUEST_URI"], strlen($_SERVER["SCRIPT_NAME"]));
 		$pathParts =  explode('/', $path);
-        	return $pathParts[0];
+        	return $pathParts[1];
 	}
 	/**
 	 * get the current installed version of ownCloud

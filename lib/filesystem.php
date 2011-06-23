@@ -322,7 +322,7 @@ class OC_FILESYSTEM{
 		if($path=='/'){
 			return true;
 		}
-		if(self::canWrite($path) and $storage=self::getStorage($path)){
+		if(self::canRead($path) and $storage=self::getStorage($path)){
 			return $storage->file_exists(self::getInternalPath($path));
 		}
 		return false;
@@ -432,7 +432,7 @@ class OC_FILESYSTEM{
 		}
 	}
 	static public function fopen($path,$mode){
-		$allowed=((strpos($path,'r')===false and strpos($path,'r+')!==false and self::canRead) or self::canWrite($path));
+		$allowed=((strpos($mode,'r')!==false and strpos($mode,'r+')===false and self::canRead()) or self::canWrite($path));
 		if($allowed){
 			if($storage=self::getStorage($path)){
 				$run=true;

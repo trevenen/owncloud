@@ -198,7 +198,7 @@ class HTTP_WebDAV_Server
        
 	if($getUserFromPath) {//first bit will be the username and needs to be mapped to 'public'
 		$pathParts =  explode('/', $this->path);
-        	$pathParts[0] = 'public';
+        	$pathParts[1] = 'public';
 		$this->path = implode('/', $pathParts);
 	}
 
