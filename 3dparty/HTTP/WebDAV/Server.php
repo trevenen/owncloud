@@ -146,10 +146,10 @@ class HTTP_WebDAV_Server
      *
      * dispatch WebDAV HTTP request to the apropriate method handler
      * 
-     * @param  void
+     * @param  bool $getUserFromPath - whether the username is worked into the URI path or not
      * @return void
      */
-    function ServeRequest() 
+    function ServeRequest($getUserFromPath=false) 
     {
         // prevent warning in litmus check 'delete_fragment'
         if (strstr($this->_SERVER["REQUEST_URI"], '#')) {
@@ -195,8 +195,13 @@ class HTTP_WebDAV_Server
         if (ini_get("magic_quotes_gpc")) {
             $this->path = stripslashes($this->path);
         }
-        
-        
+       
+	if($getUserFromPath) {//first bit will be the username and needs to be mapped to 'public'
+		$pathParts =  explode('/', $this->path);
+        	$pathParts[0] = 'public';
+		$this->path = implode('/', $pathParts);
+	}
+
         // identify ourselves
         if (empty($this->dav_powered_by)) {
             header("X-Dav-Powered-By: PHP class: ".get_class($this));

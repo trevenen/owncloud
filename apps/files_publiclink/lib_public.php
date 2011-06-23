@@ -38,7 +38,7 @@ class OC_PublicLink{
 			$user=$data[0]['user'];
 			
 			//prepare the filesystem
-			OC_UTIL::setupFS($user);
+			OC_UTIL::setupFS($user, 'files', true);
 			
 			return $path;
 		}else{

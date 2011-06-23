@@ -62,7 +62,7 @@
      * @access public
      * @param  string
      */
-    function ServeRequest($base = false)
+    function ServeRequest($base = false, $getUserFromPath = false)
     {
             // special treatment for litmus compliance test
             // reply on its identifier header
@@ -80,7 +80,7 @@
         }
 
         // let the base class do all the work
-        parent::ServeRequest();
+        parent::ServeRequest($getUserFromPath);
     }
 
     /**

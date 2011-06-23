@@ -45,6 +45,7 @@
 class OC_FILESYSTEM{
 	static private $storages=array();
 	static private $fakeRoot='';
+	static private $isWritable=false;
 	static private $storageTypes=array();
 	
 	
@@ -118,6 +119,14 @@ class OC_FILESYSTEM{
 	}
 	
 	/**
+	* set isWritable to true or false
+	* @param bool value
+	*/
+	static public function setWritable($value){
+		self::$isWritable=$value;
+	}
+
+	/**
 	* get the part of the path relative to the mountpoint of the storage it's stored in
 	* @param  string  path
 	* @return bool
@@ -155,7 +164,7 @@ class OC_FILESYSTEM{
 		if(strstr($path,'/../') || strrchr($path, '/') === '/..' ){
 			return false;
 		}
-		return true;//dummy untill premissions are correctly implemented, also the correcty value because for now users are locked in their seperate data dir and can read/write everything in there
+		return self::isWritable;
 	}
 	
 	/**

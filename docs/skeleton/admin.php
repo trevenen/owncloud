@@ -29,7 +29,7 @@ $RUNTIME_NOSETUPFS = true;
 require_once('../lib/base.php');
 
 // We need the file system although we said do not load it! Do it by hand now
-OC_UTIL::setupFS();
+OC_UTIL::setupFS('', 'files', true);
 
 // We load OC_TEMPLATE, too. This one is not loaded by base
 require( 'template.php' );

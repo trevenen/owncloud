@@ -98,7 +98,7 @@ OC_GROUP::setBackend( OC_CONFIG::getValue( "groupbackend", "database" ));
 
 // Set up file system unless forbidden
 if(!$error and !$RUNTIME_NOSETUPFS ){
-	OC_UTIL::setupFS();
+	OC_UTIL::setupFS('', 'files', true);
 }
 
 // Add the stuff we need always
@@ -123,7 +123,7 @@ class OC_UTIL {
 	private static $fsSetup=false;
 
 	// Can be set up
-	public static function setupFS( $user = "", $root = "files" ){// configure the initial filesystem based on the configuration
+	public static function setupFS( $user = '', $root = 'files', $writable = false ){// configure the initial filesystem based on the configuration
 		if(self::$fsSetup){//setting up the filesystem twice can only lead to trouble
 			return false;
 		}
@@ -180,6 +180,7 @@ class OC_UTIL {
 
 			//jail the user into his "home" directory
 			OC_FILESYSTEM::chroot("/$user/$root");
+			OC_FILESYSTEM::setWritable($writable);
 			self::$fsSetup=true;
 		}
 	}
@@ -189,6 +190,11 @@ class OC_UTIL {
 		self::$fsSetup=false;
 	}
 
+        public static function getUserfromUri() {
+       	 	$path = substr($_SERVER["REQUEST_URI"], strlen($_SERVER["SCRIPT_NAME"]));
+		$pathParts =  explode('/', $path);
+        	return $pathParts[0];
+	}
 	/**
 	 * get the current installed version of ownCloud
 	 * @return array
