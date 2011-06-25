@@ -76,6 +76,7 @@ class OC_TEMPLATE{
 	private $vars; // Vars
 	private $template; // The path to the template
 	private $l10n; // The l10n-Object
+	private $headers=array(); //custom headers
 
 	/**
 	 * @brief Constructor
@@ -151,6 +152,16 @@ class OC_TEMPLATE{
 			$this->vars[$key] = array( $value );
 		}
 	}
+	
+	/**
+	 * @brief Add a custom element to the header
+	 * @param string tag tag name of the element
+	 * @param array $attributes array of attrobutes for the element
+	 * @param string $text the text content for the element
+	 */
+	public function addHeader( $tag, $attributes, $text=''){
+		$this->headers[]=array('tag'=>$tag,'attributes'=>$attributes,'text'=>$text);
+	}
 
 	/**
 	 * @brief Prints the proceeded template
@@ -195,7 +206,6 @@ class OC_TEMPLATE{
 				$search=new OC_TEMPLATE( 'core', 'part.searchbox');
 				$search->assign('searchurl',OC_HELPER::linkTo( 'search', 'index.php' ));
 				$page->assign('searchbox', $search->fetchPage());
-				// Add menu data
 
 				// Add navigation entry
 				$page->assign( "navigation", OC_APP::getNavigation());
@@ -206,6 +216,7 @@ class OC_TEMPLATE{
 				$search=new OC_TEMPLATE( 'core', 'part.searchbox');
 				$search->assign('searchurl',OC_HELPER::linkTo( 'search', 'index.php' ));
 				$page->assign('searchbox', $search->fetchPage());
+				
 				// Add menu data
 				if( OC_GROUP::inGroup( $_SESSION["user_id"], "admin" )){
 					$page->assign( "adminnavigation", OC_APP::getAdminNavigation());
@@ -215,7 +226,6 @@ class OC_TEMPLATE{
 			else
 			{
 				$page = new OC_TEMPLATE( "core", "layout.guest" );
-				// Add data if required
 			}
 
 			// Add the css and js files
@@ -241,7 +251,13 @@ class OC_TEMPLATE{
 					$page->append( "cssfiles", "$WEBROOT/core/$style.css" );
 				}
 			}
-
+			
+			// Add custom headers
+			$page->assign('headers',$this->headers);
+			foreach(OC_UTIL::$headers as $header){
+				$page->append('headers',$header);
+			}
+			
 			// Add css files and js files
 			$page->assign( "content", $data );
 			return $page->fetchPage();
