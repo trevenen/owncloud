@@ -43,15 +43,35 @@ if(isset($_SERVER['HTTP_ORIGIN'])) {
 }
 header('Access-Control-Allow-Origin: '.$allowOrigin);
 
-$user=$_SERVER['PHP_AUTH_USER'];
-$passwd=$_SERVER['PHP_AUTH_PW'];
-if($user == OC_UTIL::getUserFromUri() && OC_USER::login($user,$passwd)){
-	OC_UTIL::setUpFS($user, 'files', true);
-	$server = new HTTP_WebDAV_Server_Filesystem();
-	$server->ServeRequest($CONFIG_DATADIRECTORY);
-}else{
-	OC_UTIL::setUpFS(OC_UTIL::getUserFromUri(), 'files', false);
-	$server = new HTTP_WebDAV_Server_Filesystem();
-	$server->ServeRequest($CONFIG_DATADIRECTORY, true);
+$path = substr($_SERVER["REQUEST_URI"], strlen($_SERVER["SCRIPT_NAME"]));
+$pathParts =  explode('/', $path);
+if(count($pathParts) < 4)) {
+	die('access denied');
 }
-?>
+$ownCloudUser = $pathParts[1];//this will be replaced by '/public' when mapping to the user's storage. 
+			//so data will be under /public/unhosted/webdav/userDomain/userName/dataScope/...
+if($pathParts[2] == 'unhosted') {
+	if($pathParts[3] == 'webdav') {
+		if(count($pathParts) < 7) {
+			die('access denied');
+		}
+		//check if authed with a token:
+		if(($_SERVER['PHP_AUTH_USER'] == $pathParts[5].'@'.$pathParts[4])
+				&& (in_array(sha1($_SERVER['PHP_AUTH_PW']), $validTokens[$ownCloudUser][$pathParts[6]]))) {
+			OC_UTIL::setUpFS($user, 'files', true);
+			$server = new HTTP_WebDAV_Server_Filesystem();
+			$server->ServeRequest($CONFIG_DATADIRECTORY);
+		}else{//read-only
+			OC_UTIL::setUpFS(OC_UTIL::getUserFromUri(), 'files', false);
+			$server = new HTTP_WebDAV_Server_Filesystem();
+			$server->ServeRequest($CONFIG_DATADIRECTORY, true);
+		}
+	} else if($pathParts[3] == 'oauth') {
+		die('show oauth dialog.');
+	} else {
+		die('access denied');
+	}
+} else {
+	die('access denied');
+}
+
