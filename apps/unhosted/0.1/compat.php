@@ -66,9 +66,9 @@ if($pathParts[2] == 'unhosted') {
 		//check if authed with a token:
 		if((isset($_SERVER['PHP_AUTH_USER'])) && ($_SERVER['PHP_AUTH_USER'] == $pathParts[5].'@'.$pathParts[4])
 				&& (in_array(sha1($_SERVER['PHP_AUTH_PW']), $validTokens[$ownCloudUser][$pathParts[6]]))) {
-			OC_UTIL::setUpFS($_SERVER['PHP_AUTH_USER'], 'files', true);
+			OC_UTIL::setUpFS(OC_UTIL::getUserFromUri(), 'files', true);
 			$server = new HTTP_WebDAV_Server_Filesystem();
-			$server->ServeRequest($CONFIG_DATADIRECTORY);
+			$server->ServeRequest($CONFIG_DATADIRECTORY, true);
 		}else{//read-only
 			OC_UTIL::setUpFS(OC_UTIL::getUserFromUri(), 'files', false);
 			$server = new HTTP_WebDAV_Server_Filesystem();
