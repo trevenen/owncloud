@@ -34,24 +34,8 @@ ini_set('default_charset', 'UTF-8');
 #ini_set('error_reporting', '');
 @ob_clean();
 
-//allow use as unhosted storage for other websites
-if(isset($_SERVER['HTTP_ORIGIN'])) {
-  $allowOrigin = $_SERVER['HTTP_ORIGIN'];
-  header('Access-Control-Max-Age: 3600');
-} else {
-  $allowOrigin = '*';
-}
-header('Access-Control-Allow-Origin: '.$allowOrigin);
+OC_UTIL::setUpFS(OC_UTIL::getUserFromUri(), 'files', false);
+$server = new HTTP_WebDAV_Server_Filesystem();
+$server->ServeRequest($CONFIG_DATADIRECTORY, true);
 
-$user=$_SERVER['PHP_AUTH_USER'];
-$passwd=$_SERVER['PHP_AUTH_PW'];
-if($user == OC_UTIL::getUserFromUri() && OC_USER::login($user,$passwd)){
-	OC_UTIL::setUpFS($user, 'files', true);
-	$server = new HTTP_WebDAV_Server_Filesystem();
-	$server->ServeRequest($CONFIG_DATADIRECTORY);
-}else{
-	OC_UTIL::setUpFS(OC_UTIL::getUserFromUri(), 'files', false);
-	$server = new HTTP_WebDAV_Server_Filesystem();
-	$server->ServeRequest($CONFIG_DATADIRECTORY, true);
-}
 ?>
