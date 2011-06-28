@@ -67,7 +67,13 @@ if($pathParts[2] == 'unhosted') {
 			$server->ServeRequest($CONFIG_DATADIRECTORY, true);
 		}
 	} else if($pathParts[3] == 'oauth2') {
-		die('show oauth dialog.');
+		if(isset($_POST['allow'])) {
+			header('Location: '.$_GET['redirect_uri'].'#access_token=asdf&token_type=unhosted');
+		} else {
+?>
+<form method="POST"><input name="allow" type="submit" value="Allow this web app to store stuff on your owncloud."></form>
+<?php
+		}
 	} else {
 		die('access denied [3] '.var_export($pathParts, true));
 	}
