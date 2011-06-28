@@ -38,6 +38,8 @@ ini_set('default_charset', 'UTF-8');
 if(isset($_SERVER['HTTP_ORIGIN'])) {
   $allowOrigin = $_SERVER['HTTP_ORIGIN'];
   header('Access-Control-Max-Age: 3600');
+  header('Access-Control-Allow-Methods: GET, PUT');
+  header('Access-Control-Allow-Headers: Authorization');
 } else {
   $allowOrigin = '*';
 }
@@ -55,10 +57,16 @@ if($pathParts[2] == 'unhosted') {
 		if(count($pathParts) < 7) {
 			die('access denied < 7 '.var_export($pathParts, true));
 		}
+
+		//fake token checking:
+		$validTokens = array('mich' => array(
+			'myfavouritesandwich.org' => array('mich@dev.unhosted.org' => sha1('asdf')), 
+		));
+
 		//check if authed with a token:
-		if(($_SERVER['PHP_AUTH_USER'] == $pathParts[5].'@'.$pathParts[4])
+		if((isset($_SERVER['PHP_AUTH_USER'])) && ($_SERVER['PHP_AUTH_USER'] == $pathParts[5].'@'.$pathParts[4])
 				&& (in_array(sha1($_SERVER['PHP_AUTH_PW']), $validTokens[$ownCloudUser][$pathParts[6]]))) {
-			OC_UTIL::setUpFS($user, 'files', true);
+			OC_UTIL::setUpFS($_SERVER['PHP_AUTH_USER'], 'files', true);
 			$server = new HTTP_WebDAV_Server_Filesystem();
 			$server->ServeRequest($CONFIG_DATADIRECTORY);
 		}else{//read-only
