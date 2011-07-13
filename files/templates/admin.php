@@ -13,17 +13,15 @@
 		"/><label for="publicEnable"> <?php echo $l->t( 'Allow public folders' ); ?></label><br>
 
 	<div id="publicFolderOptions" style="display:<?php echo ($_['publicFolders']=='on'?'block':'none');?>;padding-left:20px">
-		<input type="radio" name="sharingaim" value="separated"<?php echo($_['sharingaim']=='separated'?' checked':'');?> />
+		<input type="radio" name="sharingaim" id="separated"<?php echo($_['sharingaim']=='separated'?' checked':'');?> />
 		<label for="separated"><?php echo $l->t( 'separated from webdav storage' ); ?></label><br>
-		<input type="radio" name="sharingaim" value="userdecide"<?php echo($_['sharingaim']=='userdecide'?' checked':'');?> />
-		<label for="userdecide"><?php echo $l->t( 'let the user decide' ); ?></label><br>
-		<input type="radio" name="sharingaim" value="inwebdav"<?php echo($_['sharingaim']=='inwebdav'?' checked':'');?> />
+		<input type="radio" name="sharingaim" id="inwebdav"<?php echo($_['sharingaim']=='inwebdav'?' checked':'');?> />
 		<label for="inwebdav"><?php echo $l->t( 'folder "/public" in webdav storage' ); ?></label><br>
 	</div>
 
-	<input type="checkbox" name="downloadShared"<?php echo ($_['allowDl']=='on'?' checked':'');?> id="downloadShared"/>
+	<input type="checkbox" name="downloadShared"<?php echo ($_['downloadShared']=='on'?' checked':'');?> id="downloadShared"/>
 	<label for="downloadShared"><?php echo $l->t( 'Allow downloading shared files' ); ?></label><br>
-	<input type="checkbox" name="uploadShared"<?php echo ($_['sharedUl']=='on'?' checked':'');?> id="uploadShared"/>
+	<input type="checkbox" name="uploadShared"<?php echo ($_['uploadShared']=='on'?' checked':'');?> id="uploadShared"/>
 	<label for="uploadShared"><?php echo $l->t( 'Allow uploading in shared directory' ); ?></label><br>
 	<input type='submit' value='Save'/>
 </form>

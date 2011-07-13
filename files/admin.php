@@ -40,7 +40,6 @@ if(isset($_POST['maxUploadSize'])){
 }else{
 	$maxUploadFilesize = ini_get('upload_max_filesize').'B';
 }
-//$_POST['sharingaim'];
 
 OC_APP::setActiveNavigationEntry( "files_administration" );
 // return template
@@ -48,7 +47,7 @@ $tmpl = new OC_TEMPLATE( "files", "admin", "admin" );
 $tmpl->assign( 'htaccessWorking', $htaccessWorking );
 $tmpl->assign( 'uploadMaxFilesize', $maxUploadFilesize);
 $tmpl->assign( 'publicFolders', 'on');
-$tmpl->assign( 'sharingaim', 3);
+$tmpl->assign( 'sharingaim', 'inwebdav');
 $tmpl->printPage();
 
 ?>

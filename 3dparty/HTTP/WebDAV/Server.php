@@ -197,15 +197,8 @@ class HTTP_WebDAV_Server
         }
        
 	if($getUserFromPath) {//first bit will be the username and needs to be mapped to 'public'
-		$pathParts =  explode('/', $this->path);
-        	if(count($pathParts) < 3) {
-			throw new Exception('path should contain at least two slashes');
-		}
-		if($pathParts[0] != '') {
-			throw new Exception('path should start with a slash');
-		}
-		$pathParts[1] = 'public';
-		$this->path = implode('/', $pathParts);
+		$parsedPath = OC_UTIL::parsePathWithUser($this->path);
+		$this->path = '/public/'.$parsedPath['restPath'];
 	}
 
         // identify ourselves

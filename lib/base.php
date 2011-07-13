@@ -195,10 +195,21 @@ class OC_UTIL {
 		self::$fsSetup=false;
 	}
 
+	public static function parsePathWithUser($path) {
+		$pathParts =  explode('/', $path);
+        	if(count($pathParts) < 3) {
+			throw new Exception('path should contain at least two slashes');
+		}
+		if($pathParts[0] != '') {
+			throw new Exception('path should start with a slash');
+		}
+        	return array('user' => $pathParts[1], 'restPath' => implode(array_slice($pathParts,2)));
+	}
+		
         public static function getUserfromUri() {
        	 	$path = substr($_SERVER["REQUEST_URI"], strlen($_SERVER["SCRIPT_NAME"]));
-		$pathParts =  explode('/', $path);
-        	return $pathParts[1];
+		$parsedPath = self::parsePathWithUser($path);
+		return $parsedPath['user'];
 	}
 	/**
 	 * get the current installed version of ownCloud
