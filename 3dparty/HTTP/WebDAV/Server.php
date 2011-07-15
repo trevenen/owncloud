@@ -196,9 +196,9 @@ class HTTP_WebDAV_Server
             $this->path = stripslashes($this->path);
         }
        
-	if($getUserFromPath) {//first bit will be the username and needs to be mapped to 'public'
+	if($getUserFromPath) {//first bit will be the username
 		$parsedPath = OC_UTIL::parsePathWithUser($this->path);
-		$this->path = '/public/'.$parsedPath['restPath'];
+		$this->path = OC_CONFIG::getValue('publicfoldername', '/public').'/'.$parsedPath['restPath'];
 	}
 
         // identify ourselves

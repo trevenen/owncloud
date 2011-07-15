@@ -16,7 +16,7 @@
 		<input type="radio" name="sharingaim" id="separated"<?php echo($_['sharingaim']=='separated'?' checked':'');?> />
 		<label for="separated"><?php echo $l->t( 'separated from webdav storage' ); ?></label><br>
 		<input type="radio" name="sharingaim" id="inwebdav"<?php echo($_['sharingaim']=='inwebdav'?' checked':'');?> />
-		<label for="inwebdav"><?php echo $l->t( 'folder "/public" in webdav storage' ); ?></label><br>
+		<label for="inwebdav"><?php echo $l->t( 'folder "').OC_CONFIG::getValue('publicfoldername', '/public').$l->t('" in webdav storage' ); ?></label><br>
 	</div>
 
 	<input type="checkbox" name="downloadShared"<?php echo ($_['downloadShared']=='on'?' checked':'');?> id="downloadShared"/>
