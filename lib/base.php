@@ -200,7 +200,7 @@ class OC_UTIL {
         	if(count($pathParts) < 3) {
 			throw new Exception('path should contain at least two slashes');
 		}
-		if($pathParts[0] != '?') {
+		if($pathParts[0] != '') {
 			throw new Exception('path should start with a slash');
 		}
         	return array('user' => $pathParts[1], 'restPath' => implode(array_slice($pathParts,2)));
