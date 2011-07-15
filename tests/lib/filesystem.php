@@ -2,7 +2,7 @@
 class OC_FILEYSYSTEM_Test extends OC_TestCase
 {
 	public function setup(){
-		OC_UTIL::setupFS('testuser','testcase',true);
+		OC_UTIL::setupFS('testuser','testcase');
 	}
 	public function tearDown(){
 		OC_FILESYSTEM::chroot('');

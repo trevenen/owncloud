@@ -102,7 +102,7 @@ OC_GROUP::setBackend( OC_CONFIG::getValue( "groupbackend", "database" ));
 
 // Set up file system unless forbidden
 if(!$error and !$RUNTIME_NOSETUPFS ){
-	OC_UTIL::setupFS('', 'files', true);
+	OC_UTIL::setupFS();
 }
 
 // Add the stuff we need always
@@ -128,7 +128,7 @@ class OC_UTIL {
 	private static $fsSetup=false;
 
 	// Can be set up
-	public static function setupFS( $user = '', $root = 'files', $writable = false ){// configure the initial filesystem based on the configuration
+	public static function setupFS( $user = '', $root = 'files', $writable = true ){// configure the initial filesystem based on the configuration
 		if(self::$fsSetup){//setting up the filesystem twice can only lead to trouble
 			return false;
 		}
