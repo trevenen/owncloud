@@ -11,6 +11,5 @@ $CONFIG = array(
 "forcessl" => false,
 "enablebackup" => false,
 // "datadirectory" => ""
-// "publicfoldername" => "/public"
 );
 ?>

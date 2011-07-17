@@ -41,6 +41,16 @@ if(isset($_POST['maxUploadSize'])){
 	$maxUploadFilesize = ini_get('upload_max_filesize').'B';
 }
 
+if(isset($_POST['publicfoldername'])) {
+	$path = $_POST['publicfoldername'];
+	if(strlen($path) && (strpos($path, '..') === false)) {
+		if($path[0] != '/') {
+			$path = '/'.$path;
+		}
+		OC_PREFERENCES::setValue(OC_USER::getUser(), 'core', 'publicfoldername', $path);
+	}
+}
+
 OC_APP::setActiveNavigationEntry( "files_administration" );
 // return template
 $tmpl = new OC_TEMPLATE( "files", "admin", "admin" );
@@ -48,6 +58,7 @@ $tmpl->assign( 'htaccessWorking', $htaccessWorking );
 $tmpl->assign( 'uploadMaxFilesize', $maxUploadFilesize);
 $tmpl->assign( 'publicFolders', 'on');
 $tmpl->assign( 'sharingaim', 'inwebdav');
+$tmpl->assign( 'publicfoldername', OC_PREFERENCES::getValue(OC_USER::getUser(), 'core', 'publicfoldername', '/public'));
 $tmpl->printPage();
 
 ?>
